@@ -1,5 +1,7 @@
 package br.com.sicredi.assembleia.sessaovotacao.application.service;
 
+import br.com.sicredi.assembleia.pauta.application.service.PautaService;
+import br.com.sicredi.assembleia.pauta.domain.Pauta;
 import br.com.sicredi.assembleia.sessaovotacao.application.api.SessaoAberturaResponse;
 import br.com.sicredi.assembleia.sessaovotacao.application.repository.SessaoVotacaoRepository;
 import br.com.sicredi.assembleia.sessaovotacao.domain.SessaoAberturaRequest;
@@ -13,10 +15,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class SessaoVotacaoApplicationService implements SessaoVotacaoService {
     private final SessaoVotacaoRepository sessaoVotacaoRepository;
+    private final PautaService pautaService;
     @Override
     public SessaoAberturaResponse abreSessao(SessaoAberturaRequest sessaoAberturaRequest) {
         log.info("[inicia] SessaoVotacaoApplicationService - abreSessao");
-        SessaoVotacao sessaoVotacao = sessaoVotacaoRepository.salva(new SessaoVotacao(sessaoAberturaRequest));
+        Pauta pauta = pautaService.buscaPautaPorId(sessaoAberturaRequest.getIdPauta());
+        SessaoVotacao sessaoVotacao = sessaoVotacaoRepository.salva(new SessaoVotacao(sessaoAberturaRequest, pauta));
         log.info("[finaliza] SessaoVotacaoApplicationService - abreSessao");
         return new SessaoAberturaResponse(sessaoVotacao);
     }
