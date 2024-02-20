@@ -1,5 +1,6 @@
 package br.com.sicredi.assembleia.pauta.domain;
 
+import br.com.sicredi.assembleia.pauta.application.api.PautaRequest;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,4 +23,11 @@ public class Pauta {
     private UUID idAssociadoAutor;
     @CreationTimestamp
     private LocalDateTime dataCriacao;
+
+    public Pauta(PautaRequest pautaRequest) {
+        this.id = UUID.randomUUID();
+        this.titulo = pautaRequest.getTitulo();
+        this.descricao = pautaRequest.getDescricao();
+        this.idAssociadoAutor = pautaRequest.getIdAssociadoAutor();
+    }
 }
