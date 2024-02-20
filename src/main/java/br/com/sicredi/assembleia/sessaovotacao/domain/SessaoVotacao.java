@@ -1,6 +1,5 @@
-package br.com.sicredi.assembleia.pauta.domain;
+package br.com.sicredi.assembleia.sessaovotacao.domain;
 
-import br.com.sicredi.assembleia.pauta.application.api.PautaRequest;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,20 +12,18 @@ import java.util.UUID;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class Pauta {
+public class SessaoVotacao {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(columnDefinition = "uuid", updatable = false, unique = true, nullable = false)
     private UUID id;
-    private String titulo;
-    private String descricao;
-    private UUID idAssociadoAutor;
+    private UUID idPauta;
+    private Integer tempoDuracao;
     @CreationTimestamp
-    private LocalDateTime dataCriacao;
+    private LocalDateTime dataAbertura;
 
-    public Pauta(PautaRequest pautaRequest) {
-        this.titulo = pautaRequest.getTitulo();
-        this.descricao = pautaRequest.getDescricao();
-        this.idAssociadoAutor = pautaRequest.getIdAssociadoAutor();
+    public SessaoVotacao(SessaoAberturaRequest sessaoAberturaRequest) {
+        this.idPauta = sessaoAberturaRequest.getIdPauta();
+        this.tempoDuracao = sessaoAberturaRequest.getTempoDuracao().orElse(1);
     }
 }
