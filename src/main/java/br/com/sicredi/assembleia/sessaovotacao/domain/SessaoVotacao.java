@@ -1,6 +1,7 @@
 package br.com.sicredi.assembleia.sessaovotacao.domain;
 
 import br.com.sicredi.assembleia.pauta.domain.Pauta;
+import br.com.sicredi.assembleia.sessaovotacao.application.api.ResultadoSessao;
 import br.com.sicredi.assembleia.sessaovotacao.application.api.VotoRequest;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -71,8 +72,30 @@ public class SessaoVotacao {
 
     private void validaAssociado(String cpfAssociado) {
         if (this.votos.containsKey(cpfAssociado)){
-            new RuntimeException("Associado já votou nessa sessão!");
+           throw new RuntimeException("Associado já votou nessa sessão!");
         }
     }
 
+    public ResultadoSessao obtemResultado() {
+        atualizaStatus();
+    return new ResultadoSessao(this);
+    }
+
+    public Long getTotalVotos() {
+        return (long) this.votos.size();
+    }
+
+    public Long getTotalSim() {
+        return calculaVotosPorOpcao(OpcaoVoto.SIM);
+    }
+    public Long getTotalNao() {
+        return calculaVotosPorOpcao(OpcaoVoto.NAO);
+    }
+
+    private Long calculaVotosPorOpcao(OpcaoVoto opcaoVoto) {
+        return votos.values().stream()
+                .filter(v -> v.getOpcaoVoto().equals(opcaoVoto))
+                .count();
+
+    }
 }

@@ -2,6 +2,7 @@ package br.com.sicredi.assembleia.sessaovotacao.application.service;
 
 import br.com.sicredi.assembleia.pauta.application.service.PautaService;
 import br.com.sicredi.assembleia.pauta.domain.Pauta;
+import br.com.sicredi.assembleia.sessaovotacao.application.api.ResultadoSessao;
 import br.com.sicredi.assembleia.sessaovotacao.application.api.SessaoAberturaResponse;
 import br.com.sicredi.assembleia.sessaovotacao.application.api.VotoRequest;
 import br.com.sicredi.assembleia.sessaovotacao.application.api.VotoResponse;
@@ -38,5 +39,15 @@ public class SessaoVotacaoApplicationService implements SessaoVotacaoService {
         sessaoVotacaoRepository.salva(sessao);
         log.info("[finaliza] SessaoVotacaoApplicationService - recebeVoto");
         return new VotoResponse(voto);
+    }
+
+    @Override
+    public ResultadoSessao obtemResultado(UUID idSessao) {
+        log.info("[inicia] SessaoVotacaoApplicationService - obtemResultado");
+        SessaoVotacao sessao = sessaoVotacaoRepository.buscaSessaoPorId(idSessao);
+        ResultadoSessao resultadoSessao = sessao.obtemResultado();
+        sessaoVotacaoRepository.salva(sessao);
+        log.info("[finaliza] SessaoVotacaoApplicationService - obtemResultado");
+        return resultadoSessao;
     }
 }
