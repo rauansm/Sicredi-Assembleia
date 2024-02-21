@@ -1,0 +1,3 @@
+app:
+  aws:
+    endpoint-override: http://localhost:4566
