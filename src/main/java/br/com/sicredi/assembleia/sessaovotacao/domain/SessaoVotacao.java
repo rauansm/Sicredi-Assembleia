@@ -1,12 +1,12 @@
 package br.com.sicredi.assembleia.sessaovotacao.domain;
 
+import br.com.sicredi.assembleia.associado.application.service.AssociadoService;
 import br.com.sicredi.assembleia.pauta.domain.Pauta;
 import br.com.sicredi.assembleia.sessaovotacao.application.api.ResultadoSessao;
 import br.com.sicredi.assembleia.sessaovotacao.application.api.VotoRequest;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -43,9 +43,9 @@ public class SessaoVotacao {
         this.votos = new HashMap<>();
     }
 
-    public VotoPauta recebeVoto(VotoRequest votoRequest){
+    public VotoPauta recebeVoto(VotoRequest votoRequest, AssociadoService associadoService){
         validaSessaoAberta();
-        validaAssociado(votoRequest.getCpfAssociado());
+        validaAssociado(votoRequest.getCpfAssociado(),associadoService);
         VotoPauta voto = new VotoPauta(this, votoRequest);
         votos.put(votoRequest.getCpfAssociado(),voto);
         return voto;
@@ -70,7 +70,12 @@ public class SessaoVotacao {
         this.status = StatusSessaoVotacao.FECHADA;
     }
 
-    private void validaAssociado(String cpfAssociado) {
+    private void validaAssociado(String cpfAssociado, AssociadoService associadoService) {
+        associadoService.validaAssociadoAptoVoto(cpfAssociado);
+        validaVotoDuplicado(cpfAssociado);
+    }
+
+    private void validaVotoDuplicado(String cpfAssociado) {
         if (this.votos.containsKey(cpfAssociado)){
            throw new RuntimeException("Associado já votou nessa sessão!");
         }

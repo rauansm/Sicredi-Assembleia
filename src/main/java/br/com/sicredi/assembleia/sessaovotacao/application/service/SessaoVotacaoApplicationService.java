@@ -1,5 +1,6 @@
 package br.com.sicredi.assembleia.sessaovotacao.application.service;
 
+import br.com.sicredi.assembleia.associado.application.service.AssociadoService;
 import br.com.sicredi.assembleia.pauta.application.service.PautaService;
 import br.com.sicredi.assembleia.pauta.domain.Pauta;
 import br.com.sicredi.assembleia.sessaovotacao.application.api.ResultadoSessao;
@@ -22,6 +23,8 @@ import java.util.UUID;
 public class SessaoVotacaoApplicationService implements SessaoVotacaoService {
     private final SessaoVotacaoRepository sessaoVotacaoRepository;
     private final PautaService pautaService;
+    private final AssociadoService associadoService;
+
     @Override
     public SessaoAberturaResponse abreSessao(SessaoAberturaRequest sessaoAberturaRequest) {
         log.info("[inicia] SessaoVotacaoApplicationService - abreSessao");
@@ -35,7 +38,7 @@ public class SessaoVotacaoApplicationService implements SessaoVotacaoService {
     public VotoResponse recebeVoto(UUID idSessao, VotoRequest votoRequest) {
         log.info("[inicia] SessaoVotacaoApplicationService - recebeVoto");
         SessaoVotacao sessao = sessaoVotacaoRepository.buscaSessaoPorId(idSessao);
-        VotoPauta voto = sessao.recebeVoto(votoRequest);
+        VotoPauta voto = sessao.recebeVoto(votoRequest,associadoService);
         sessaoVotacaoRepository.salva(sessao);
         log.info("[finaliza] SessaoVotacaoApplicationService - recebeVoto");
         return new VotoResponse(voto);
