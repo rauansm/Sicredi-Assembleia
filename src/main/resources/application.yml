@@ -13,3 +13,7 @@ spring:
     console:
       enabled: true
       path: /h2-console
+
+logging:
+  level:
+    br.com.sicredi: ${LOG_LEVEL:DEBUG}
