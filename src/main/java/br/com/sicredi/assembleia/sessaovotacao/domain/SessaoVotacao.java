@@ -5,9 +5,7 @@ import br.com.sicredi.assembleia.handler.APIException;
 import br.com.sicredi.assembleia.pauta.domain.Pauta;
 import br.com.sicredi.assembleia.sessaovotacao.application.api.ResultadoSessao;
 import br.com.sicredi.assembleia.sessaovotacao.application.api.VotoRequest;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -18,6 +16,8 @@ import java.util.*;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder(access = AccessLevel.PACKAGE)
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
 public class SessaoVotacao {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -59,7 +59,7 @@ public class SessaoVotacao {
         }
     }
 
-    private void atualizaStatus(PublicadorResultadoSessao publicadorResultadoSessao) {
+     void atualizaStatus(PublicadorResultadoSessao publicadorResultadoSessao) {
         if (this.status.equals(StatusSessaoVotacao.ABERTA)){
             if (LocalDateTime.now().isAfter(this.momentoEncerramento)){
                 fechaSessao(publicadorResultadoSessao);
@@ -67,7 +67,7 @@ public class SessaoVotacao {
         }
     }
 
-    private void fechaSessao(PublicadorResultadoSessao publicadorResultadoSessao) {
+     void fechaSessao(PublicadorResultadoSessao publicadorResultadoSessao) {
         this.status = StatusSessaoVotacao.FECHADA;
         publicadorResultadoSessao.publica(new ResultadoSessao(this));
     }

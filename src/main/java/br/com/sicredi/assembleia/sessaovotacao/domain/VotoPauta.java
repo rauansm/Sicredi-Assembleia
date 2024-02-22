@@ -1,9 +1,7 @@
 package br.com.sicredi.assembleia.sessaovotacao.domain;
 
 import br.com.sicredi.assembleia.sessaovotacao.application.api.VotoRequest;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -13,6 +11,8 @@ import java.util.UUID;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder(access = AccessLevel.PACKAGE)
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
 public class VotoPauta {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
