@@ -1,5 +1,6 @@
 package br.com.sicredi.assembleia.sessaovotacao.infra;
 
+import br.com.sicredi.assembleia.handler.APIException;
 import br.com.sicredi.assembleia.sessaovotacao.application.repository.SessaoVotacaoRepository;
 import br.com.sicredi.assembleia.sessaovotacao.domain.SessaoVotacao;
 import br.com.sicredi.assembleia.sessaovotacao.domain.StatusSessaoVotacao;
@@ -29,7 +30,7 @@ public class SessaoVotacaoInfraRepository implements SessaoVotacaoRepository {
         log.info("[inicia] SessaoVotacaoInfraRepository - buscaSessaoPorId");
         Optional<SessaoVotacao> sessaoVotacao = sessaoVotacaoSpringDataJPA.findById(idSessao);
         log.info("[finaliza] SessaoVotacaoInfraRepository - buscaSessaoPorId");
-        return sessaoVotacao.orElseThrow(() -> new RuntimeException("Sessão não encontrada!"));
+        return sessaoVotacao.orElseThrow(() -> APIException.recursoNaoEncontrado("Sessão não encontrada!"));
     }
 
     @Override

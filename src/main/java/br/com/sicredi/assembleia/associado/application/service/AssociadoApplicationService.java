@@ -2,6 +2,7 @@ package br.com.sicredi.assembleia.associado.application.service;
 
 import br.com.sicredi.assembleia.associado.infra.client.ConsultaCPFResponse;
 import br.com.sicredi.assembleia.associado.infra.client.SerproClientFeign;
+import br.com.sicredi.assembleia.handler.APIException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ public class AssociadoApplicationService implements AssociadoService {
     }
     private void valida(ConsultaCPFResponse consultaCPFResponse) {
         if (consultaCPFResponse.isInvalid()){
-            throw new RuntimeException("CPF associado Inválido!");
+            throw APIException.negocio("CPF associado Inválido!");
         }
     }
 

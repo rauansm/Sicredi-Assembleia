@@ -1,6 +1,7 @@
 package br.com.sicredi.assembleia.sessaovotacao.domain;
 
 import br.com.sicredi.assembleia.associado.application.service.AssociadoService;
+import br.com.sicredi.assembleia.handler.APIException;
 import br.com.sicredi.assembleia.pauta.domain.Pauta;
 import br.com.sicredi.assembleia.sessaovotacao.application.api.ResultadoSessao;
 import br.com.sicredi.assembleia.sessaovotacao.application.api.VotoRequest;
@@ -54,7 +55,7 @@ public class SessaoVotacao {
     private void validaSessaoAberta(PublicadorResultadoSessao publicadorResultadoSessao) {
         atualizaStatus(publicadorResultadoSessao);
         if (this.status.equals(StatusSessaoVotacao.FECHADA)){
-            throw new RuntimeException("Sessão está fechada");
+            throw APIException.negocio("Essa sessão está fechada");
         }
     }
 
@@ -78,7 +79,7 @@ public class SessaoVotacao {
 
     private void validaVotoDuplicado(String cpfAssociado) {
         if (this.votos.containsKey(cpfAssociado)){
-           throw new RuntimeException("Associado já votou nessa sessão!");
+           throw APIException.negocio("Associado já votou nessa sessão!");
         }
     }
 
