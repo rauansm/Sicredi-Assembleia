@@ -1,4 +1,4 @@
-package br.com.sicredi.assembleia.pauta.application.infra;
+package br.com.sicredi.assembleia.pauta.infra;
 
 import br.com.sicredi.assembleia.pauta.domain.Pauta;
 import org.springframework.data.jpa.repository.JpaRepository;
