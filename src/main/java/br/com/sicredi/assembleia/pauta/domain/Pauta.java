@@ -1,9 +1,7 @@
 package br.com.sicredi.assembleia.pauta.domain;
 
 import br.com.sicredi.assembleia.pauta.application.api.PautaRequest;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -13,6 +11,8 @@ import java.util.UUID;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
 public class Pauta {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

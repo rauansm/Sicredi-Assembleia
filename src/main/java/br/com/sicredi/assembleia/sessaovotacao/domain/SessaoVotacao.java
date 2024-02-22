@@ -72,12 +72,12 @@ public class SessaoVotacao {
         publicadorResultadoSessao.publica(new ResultadoSessao(this));
     }
 
-    private void validaAssociado(String cpfAssociado, AssociadoService associadoService) {
+     void validaAssociado(String cpfAssociado, AssociadoService associadoService) {
         associadoService.validaAssociadoAptoVoto(cpfAssociado);
         validaVotoDuplicado(cpfAssociado);
     }
 
-    private void validaVotoDuplicado(String cpfAssociado) {
+     void validaVotoDuplicado(String cpfAssociado) {
         if (this.votos.containsKey(cpfAssociado)){
            throw APIException.negocio("Associado já votou nessa sessão!");
         }
