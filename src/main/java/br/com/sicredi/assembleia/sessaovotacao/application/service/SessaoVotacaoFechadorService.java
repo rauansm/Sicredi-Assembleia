@@ -6,12 +6,11 @@ import br.com.sicredi.assembleia.sessaovotacao.domain.SessaoVotacao;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Component
+@Service
 @RequiredArgsConstructor
 @Log4j2
 public class SessaoVotacaoFechadorService {
