@@ -2,10 +2,12 @@ package br.com.sicredi.assembleia.sessaovotacao.infra;
 
 import br.com.sicredi.assembleia.sessaovotacao.application.repository.SessaoVotacaoRepository;
 import br.com.sicredi.assembleia.sessaovotacao.domain.SessaoVotacao;
+import br.com.sicredi.assembleia.sessaovotacao.domain.StatusSessaoVotacao;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -28,5 +30,13 @@ public class SessaoVotacaoInfraRepository implements SessaoVotacaoRepository {
         Optional<SessaoVotacao> sessaoVotacao = sessaoVotacaoSpringDataJPA.findById(idSessao);
         log.info("[finaliza] SessaoVotacaoInfraRepository - buscaSessaoPorId");
         return sessaoVotacao.orElseThrow(() -> new RuntimeException("Sessão não encontrada!"));
+    }
+
+    @Override
+    public List<SessaoVotacao> buscaAbertas() {
+        log.debug("[inicia] SessaoVotacaoInfraRepository - buscaAbertas");
+        List<SessaoVotacao> sessoes = sessaoVotacaoSpringDataJPA.findByStatus(StatusSessaoVotacao.ABERTA);
+        log.debug("[finaiza] SessaoVotacaoInfraRepository - buscaAbertas");
+        return sessoes;
     }
 }
